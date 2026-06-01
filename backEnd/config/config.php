@@ -1,9 +1,11 @@
 <?php
-require dirname(__DIR__) . '/vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+require __DIR__ . '/../../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(
+  __DIR__ . '/../../'
+);
+
 $dotenv->load();
-
-
 
 
 try {
@@ -14,7 +16,6 @@ try {
   );
 
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Conectado com sucesso";
 } catch (PDOException $error) {
 
   echo  "Erro: " . $error->getMessage();

@@ -3,7 +3,7 @@ const form = document.querySelector(".myForm");
 const manager = new TaskManager();
 const btnCreateTask = document.querySelector("#btn-create-task");
 const btnCancelTask = document.querySelector("#btn-cancel-task");
-
+renderTask("list");
 btnCreateTask.onclick = () => {
   console.log("OK");
   form.classList.remove("hidden");
@@ -23,7 +23,6 @@ form.addEventListener("submit", (e) => {
   const title = form.querySelector("#title-task").value.trim();
   const content = form.querySelector("#Textarea").value.trim();
   const task = manager.add(title, content);
-  renderTask(task);
 
   form.reset();
 });
@@ -55,9 +54,7 @@ document.addEventListener("click", function (event) {
   if (event.target.type === "checkbox") {
     const taskId = event.target.dataset.id;
 
-    disableTask(taskId, event.target.checked);
-
-    updateTaskInDB(taskId, event.target.checked);
+    disableTask(taskId);
   }
 
   if (event.target.classList.contains("div-question")) {
@@ -72,7 +69,6 @@ document.addEventListener("click", function (event) {
   console.log(event.target);
 });
 
-function renderTask() {}
 function modalDelete(taskId) {
   const title = "DELETAR NOTA";
   const text = "Deseja realmente apagar definitivamente essa nota?";
@@ -82,15 +78,16 @@ function modalDelete(taskId) {
 function modalCopy(taskId, copy) {
   setValuesTags(
     "COPIAR NOTA",
-    "Deseja copiar o conteudo dessa nota para sua area de transferencia?",
+    "Deseja copiar o conteúdo dessa nota para sua area de transferencia?",
   );
+  console.log("TASKID " + taskId);
   const btn = document.querySelector("#yes-continue");
 
   if (copy) {
     btn.onclick = async () => {
       try {
         await navigator.clipboard.writeText(getTaskContent(taskId));
-        closeModal();
+        closeModal(".div-question");
       } catch (err) {
         console.error("Clipboard error:", err);
       }
@@ -98,6 +95,11 @@ function modalCopy(taskId, copy) {
   }
 }
 
+function getTaskContent(taskId) {
+  const contentTask = document.querySelector(`#${taskId}`).textContent;
+  console.log(contentTask);
+  return contentTask;
+}
 function setValuesTags(title, text) {
   const divQuestion = document.querySelector(".div-question");
 
@@ -122,13 +124,21 @@ function closeModal(classDiv) {
   disableBody();
 }
 
-function disableTask(taskId, boolean) {
-  taskId = "task-101";
+function disableTask(taskId) {
   const task = document.querySelector(`[data-id="${taskId}"]`);
+  console.log(task);
+  console.log("filho " + task.children[1]);
+
   if (!task) return;
   const titleAndContent = task.children[0];
-  task.classList.add("task-off", boolean);
-  titleAndContent.classList.add("content-off", boolean);
+
+  if (!task.classList.contains("task-off")) {
+    task.classList.add("task-off");
+    titleAndContent.classList.add("content-off");
+  } else {
+    task.classList.remove("task-off");
+    titleAndContent.classList.remove("content-off");
+  }
 }
 
 function disableBody() {
@@ -165,11 +175,11 @@ function editTask(taskId) {
           <textarea class="form-control-lg textarea " id="Textarea-edit" rows="8" placeholder="Texto da nota aqui..."></textarea>
         </div>
         <div class="d-flex gap-3">
+        <button type="button" class="btn btn-warning btn-lg text-nowrap btn-cancel-edit">
+          Cancelar
+        </button>
         <button type="button" class=" btn btn-primary btn-lg text-nowrap btn-task">
           Salvar
-        </button>
-        <button type="button" class="btn btn-danger btn-lg text-nowrap btn-cancel-edit">
-          Cancelar
         </button>
         </div>
       </div>`;
@@ -179,4 +189,67 @@ function editTask(taskId) {
 function disableTaskArea() {
   const taskArea = document.querySelector(".task-area");
   taskArea.classList.toggle("hidden");
+}
+
+async function renderTask(type) {
+  try {
+    const response = await fetch(`/api.php?action=${type}`);
+
+    const dados = await response.json();
+    //busca no banco
+    const taskArea = document.querySelector(".task-area");
+
+    taskArea.innerHTML = "";
+
+    dados.forEach((dado) => {
+      const allTask = document.createElement("div");
+      const titleTask = document.createElement("h1");
+      const textTask = document.createElement("p");
+
+      textTask.classList.add("text-task");
+
+      allTask.innerHTML = `
+      <div class="card mb-3 bg-secondary-subtle">
+        <div class="group-content card-body d-flex  gap-5 align-items-center justify-content-between" data-id="note-${dado.idTask}">
+
+          <div class="container d-flex align-items-start flex-column ">
+
+            <h4>${dado.title}</h4>
+            <p class="text-task" id="note-${dado.idTask}">
+            ${dado.description}
+            </p>
+          </div>
+          <div class="container group-options">
+
+            <a>
+              <span class="material-symbols-outlined btn-copy" data-id="note-${dado.idTask}">
+                content_copy
+              </span>
+            </a>
+            <a>
+              <span class="material-symbols-outlined btn-delete" data-id="note-${dado.idTask}">
+                delete
+              </span>
+
+            </a>
+
+            <a>
+              <span class="material-symbols-outlined btn-edit" data-id="note-${dado.idTask}">
+                edit_document
+              </span>
+            </a>
+
+
+
+            <input class="form-check-input check-option" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
+              style="border: var(--bs-border-width) solid #a4a4a4" data-id="note-${dado.idTask}" />
+
+          </div>
+        </div>
+      </div>`;
+      taskArea.appendChild(allTask);
+    });
+  } catch (error) {
+    console.error("Erro:", error);
+  }
 }

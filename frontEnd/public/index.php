@@ -20,6 +20,7 @@
     <button class="btn btn-dark btn-lg m-5" id="btn-create-task">Criar Nova Nota</button>
     <form action="" class="form myForm hidden">
       <div class="container-fluid d-flex justify-content-center align-items-center p-4 gap-2 flex-column">
+
         <div class="input-group input-group-lg div-input-title">
           <input type="text" class="form-control " placeholder="Insira sua task aqui" id="title-task" name="task" />
         </div>
@@ -37,79 +38,7 @@
       </div>
     </form>
     <div class="task-area">
-      <div class="card mb-3 bg-secondary-subtle">
-        <div class="group-content card-body d-flex  gap-5 align-items-center justify-content-between"
-          data-id="task-101">
 
-          <div class="container d-flex align-items-start flex-column ">
-
-            <h4>Titulo aqui</h4>
-            <p class="text-task">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cum laudantium quos dolor
-              sunt non ut iste possimus accusamus, facilis quod quo magnam sed architecto porro quas aperiam dolorum
-              molestias. Quibusdam.
-            </p>
-          </div>
-          <div class="container group-options">
-
-            <a>
-              <span class="material-symbols-outlined btn-copy" data-id="101">
-                content_copy
-              </span>
-            </a>
-            <a>
-              <span class="material-symbols-outlined btn-delete" data-id="101">
-                delete
-              </span>
-
-            </a>
-
-            <a>
-              <span class="material-symbols-outlined btn-edit" data-id="101">
-                edit_document
-              </span>
-            </a>
-
-
-
-            <input class="form-check-input check-option" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
-              style="border: var(--bs-border-width) solid #a4a4a4" data-id="101" />
-
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3 bg-secondary-subtle">
-        <div
-          class="group-content card-body d-flex flex-direction: column gap-5 align-items-center justify-content-between">
-          <p class="text-task fw-semibold text-break ">With supporting text below as a natural lead-in to additional
-            content.</p>
-          <div class="container group-options">
-
-            <a>
-              <span class="material-symbols-outlined btn-copy" data-id="102">
-                content_copy
-              </span>
-            </a>
-            <a>
-              <span class="material-symbols-outlined btn-delete" data-id="102">
-                delete
-              </span>
-
-            </a>
-
-            <a>
-              <span class="material-symbols-outlined btn-edit" data-id="102">
-                edit_document
-              </span>
-            </a>
-
-
-
-            <input class="form-check-input check-option" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
-              style="border: var(--bs-border-width) solid #a4a4a4" data-id="102" />
-
-          </div>
-        </div>
-      </div>
     </div>
   </main>
   <div class="position-absolute fixed-top div-question hidden">
@@ -120,8 +49,8 @@
         <p class="card-text" id="alert-text">Deseja prosseguir com a</p>
         <div class="container d-flex gap-2 justify-content-center">
 
-          <a href="#" class="btn btn-danger" id="no-continue">NÃO</a>
-          <a href="#" class="btn btn-success" id="yes-continue">SIM</a>
+          <a href="#" class="btn btn-primary btn-task " id="no-continue">NÃO</a>
+          <a href="#" class="btn btn-warning" id="yes-continue">SIM</a>
 
         </div>
       </div>
