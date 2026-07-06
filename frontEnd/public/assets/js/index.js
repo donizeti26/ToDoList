@@ -205,36 +205,37 @@ async function renderTask(type) {
       const allTask = document.createElement("div");
       const titleTask = document.createElement("h1");
       const textTask = document.createElement("p");
+      console.log(dado.titulo);
 
       textTask.classList.add("text-task");
 
       allTask.innerHTML = `
       <div class="card mb-3 bg-secondary-subtle">
-        <div class="group-content card-body d-flex  gap-5 align-items-center justify-content-between" data-id="note-${dado.idTask}">
+        <div class="group-content card-body d-flex  gap-5 align-items-center justify-content-between" data-id="note-${dado.id}">
 
           <div class="container d-flex align-items-start flex-column ">
 
-            <h4>${dado.title}</h4>
-            <p class="text-task" id="note-${dado.idTask}">
-            ${dado.description}
+            <h4>${dado.titulo}</h4>
+            <p class="text-task" id="note-${dado.id}">
+            ${dado.descricao}
             </p>
           </div>
           <div class="container group-options">
 
             <a>
-              <span class="material-symbols-outlined btn-copy" data-id="note-${dado.idTask}">
+              <span class="material-symbols-outlined btn-copy" data-id="note-${dado.id}">
                 content_copy
               </span>
             </a>
             <a>
-              <span class="material-symbols-outlined btn-delete" data-id="note-${dado.idTask}">
+              <span class="material-symbols-outlined btn-delete" data-id="note-${dado.id}">
                 delete
               </span>
 
             </a>
 
             <a>
-              <span class="material-symbols-outlined btn-edit" data-id="note-${dado.idTask}">
+              <span class="material-symbols-outlined btn-edit" data-id="note-${dado.id}">
                 edit_document
               </span>
             </a>
@@ -242,7 +243,7 @@ async function renderTask(type) {
 
 
             <input class="form-check-input check-option" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
-              style="border: var(--bs-border-width) solid #a4a4a4" data-id="note-${dado.idTask}" />
+              style="border: var(--bs-border-width) solid #a4a4a4" data-id="note-${dado.id}" />
 
           </div>
         </div>
