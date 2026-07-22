@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="icon" type="image/png" href="./dolistWhite.png" />
+  <link rel="icon" type="image/png" href="./assets/img/iconTodoList.svg" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <title>ToDoList (php)</title>
@@ -14,10 +14,10 @@
 </head>
 
 <body class="d-flex justify-content-center align-items-center  bg-dark-subtle ">
-  <main class="container-md text-center rounded-5 p-5 m-3">
+  <main class="container-md text-center rounded-5 m-3">
     <img class="img-fluid-sm text-center no-select w-50 w-md-25" draggable="false" src="./assets/img/logoTodolist.svg"
       alt="" /> <br>
-    <button class="btn btn-dark btn-lg m-5" id="btn-create-task">Criar Nova Nota</button>
+    <button class="btn btn-dark btn-lg m-2" id="btn-create-task">Criar Nova Nota</button>
     <form action="" class="form myForm hidden">
       <div class="container-fluid d-flex justify-content-center align-items-center p-4 gap-2 flex-column">
 

@@ -28,31 +28,31 @@ form.addEventListener("submit", (e) => {
 });
 
 document.addEventListener("click", function (event) {
-  console.log("teste");
+  //console.log("teste");
   if (event.target.classList.contains("btn-delete")) {
-    const taskId = event.target.dataset.id;
+    const taskId = event.target.dataset.noteId;
     console.log("btn-delete " + taskId);
     modalDelete(taskId);
   } else if (event.target.classList.contains("btn-copy")) {
-    const taskId = event.target.dataset.id;
-    console.log("btn-copy " + taskId);
-    modalCopy(taskId, true);
-    const My = new objTask("TITULO", "CONTEUDO", true);
 
-    console.log(My);
+    const card = event.target.closest(".group-content");
+
+
+    modalCopy(card, true);
+
   } else if (event.target.classList.contains("btn-edit")) {
-    const taskId = event.target.dataset.id;
-    console.log("btn-edit " + taskId);
+    const taskId = event.target.dataset.noteId;
+    console.log("btn-edit " + taskId +"ID ");
     editTask(taskId);
   } else if (event.target.classList.contains("btn-cancel-edit")) {
-    const taskId = event.target.dataset.id;
+    const taskId = event.target.dataset.noteId;
     const editModal = document.querySelector(".form-edit");
     editModal.remove();
     closeModal(".edit-modal");
   }
 
   if (event.target.type === "checkbox") {
-    const taskId = event.target.dataset.id;
+    const taskId = event.target.dataset.noteId;
 
     disableTask(taskId);
   }
@@ -66,7 +66,7 @@ document.addEventListener("click", function (event) {
   if (event.target.id == "no-continue") {
     closeModal(".div-question");
   }
-  console.log(event.target);
+ // console.log(event.target);
 });
 
 function modalDelete(taskId) {
@@ -75,18 +75,19 @@ function modalDelete(taskId) {
   setValuesTags(title, text);
 }
 
-function modalCopy(taskId, copy) {
+function modalCopy(card, copy) {
   setValuesTags(
     "COPIAR NOTA",
     "Deseja copiar o conteúdo dessa nota para sua area de transferencia?",
   );
-  console.log("TASKID " + taskId);
+  console.log("CARD " + card);
   const btn = document.querySelector("#yes-continue");
 
   if (copy) {
     btn.onclick = async () => {
       try {
-        await navigator.clipboard.writeText(getTaskContent(taskId));
+        const content = card.querySelector(".text-task").textContent.trim();
+        await navigator.clipboard.writeText(content);
         closeModal(".div-question");
       } catch (err) {
         console.error("Clipboard error:", err);
@@ -95,11 +96,7 @@ function modalCopy(taskId, copy) {
   }
 }
 
-function getTaskContent(taskId) {
-  const contentTask = document.querySelector(`#${taskId}`).textContent;
-  console.log(contentTask);
-  return contentTask;
-}
+
 function setValuesTags(title, text) {
   const divQuestion = document.querySelector(".div-question");
 
@@ -125,9 +122,9 @@ function closeModal(classDiv) {
 }
 
 function disableTask(taskId) {
-  const task = document.querySelector(`[data-id="${taskId}"]`);
-  console.log(task);
-  console.log("filho " + task.children[1]);
+  const task = document.querySelector(`[data-note-id="${taskId}"]`);
+  //console.log(task);
+  //console.log("filho " + task.children[1]);
 
   if (!task) return;
   const titleAndContent = task.children[0];
@@ -151,6 +148,8 @@ function disableBody() {
     tagBody.classList.remove("body-no-overflow");
   }
 }
+
+
 function editTask(taskId) {
   //busca no banco
   const editModal = document.querySelector(".edit-modal");
@@ -184,8 +183,12 @@ function editTask(taskId) {
         </div>
       </div>`;
   console.log(editModal.childNodes);
+
+
   editModal.appendChild(modaFormEdit);
 }
+
+
 function disableTaskArea() {
   const taskArea = document.querySelector(".task-area");
   taskArea.classList.toggle("hidden");
@@ -211,31 +214,31 @@ async function renderTask(type) {
 
       allTask.innerHTML = `
       <div class="card mb-3 bg-secondary-subtle">
-        <div class="group-content card-body d-flex  gap-5 align-items-center justify-content-between" data-id="note-${dado.id}">
+        <div class="group-content card-body d-flex  flex-column align-items-center justify-content-between" data-note-id="${dado.id}">
 
           <div class="container d-flex align-items-start flex-column ">
 
             <h4>${dado.titulo}</h4>
-            <p class="text-task" id="note-${dado.id}">
+            <p class="text-task" ">
             ${dado.descricao}
             </p>
           </div>
           <div class="container group-options">
 
             <a>
-              <span class="material-symbols-outlined btn-copy" data-id="note-${dado.id}">
+              <span class="material-symbols-outlined btn-copy"  ">
                 content_copy
               </span>
             </a>
             <a>
-              <span class="material-symbols-outlined btn-delete" data-id="note-${dado.id}">
+              <span class="material-symbols-outlined btn-delete" ">
                 delete
               </span>
 
             </a>
 
             <a>
-              <span class="material-symbols-outlined btn-edit" data-id="note-${dado.id}">
+              <span class="material-symbols-outlined btn-edit" ">
                 edit_document
               </span>
             </a>
@@ -243,7 +246,7 @@ async function renderTask(type) {
 
 
             <input class="form-check-input check-option" type="checkbox" id="checkboxNoLabel" value="" aria-label="..."
-              style="border: var(--bs-border-width) solid #a4a4a4" data-id="note-${dado.id}" />
+              style="border: var(--bs-border-width) solid #a4a4a4"" />
 
           </div>
         </div>
